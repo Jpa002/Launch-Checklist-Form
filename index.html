@@ -8,33 +8,167 @@
     <body>
         <h1>Launch Checklist Form</h1>
         <div id="missionTarget">
-            <!-- Fetch some planetary data -->
+            <script>
+            window.addEventListener("load", function(){
+            fetch ("https://handlers.education.launchcode.org/static/planets.json").then( function(response){
+                response.json().then(function(json){
+                    let div =document.getElementById("missionTarget");
+                    let input = Math.floor(Math.random()*6)
+                    div.innerHTML = `
+                    <h2>Mission Destination</h2>
+                        <ol>
+                            <li>Name: ${json[input].name}</li>
+                            <li>Diameter: ${json[input].diameter}</li>
+                            <li>Star: ${json[input].star}</li>
+                            <li>Distance from Earth: ${json[input].distance}</li>
+                            <li>Number of Moons: ${json[input].moons}</li>
+                        </ol>
+                        <img src="${json[input].image}">
+                        `
+                 })
+            })
+            })
+            </script>
+            
         </div> 
         <div id="launchForm">
             <form>
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
                     <label>Pilot Name <input type="text" name="pilotName" id="pilotName"/></label>
+                    <script>
+                      window.addEventListener("load", function (){
+                          let formSubmit = document.getElementById("formSubmit");
+                          formSubmit.addEventListener("click", function(){
+                          let pilotNameInput = document.querySelector("input[name=pilotName]");
+                          if (isNaN(pilotNameInput.value)== false){
+                                alert("Unless your Elons Son, only alphabetical names please" );
+                            }
+                      })  
+                    })   
+                    </script>
                 </div>
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
                     <label>Co-pilot Name <input type="text" name="copilotName"/></label>
+                    <script>
+                        window.addEventListener("load", function (){
+                            let formSubmit = document.getElementById("formSubmit");
+                            formSubmit.addEventListener("click", function(){
+                            let copilotNameInput = document.querySelector("input[name=copilotName]");
+                            if (isNaN(copilotNameInput.value)== false){
+                                  alert("Unless your Elons Son, only alphabetical names please for copilot" );
+                              }
+                        })  
+                      })   
+                      </script>
                 </div>
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
                     <label>Fuel Level (L) <input type="text" name="fuelLevel"/></label> 
+                    <script>
+                        window.addEventListener("load", function (){
+                            let formSubmit = document.getElementById("formSubmit")
+                            formSubmit.addEventListener("click", function(){
+                            let fuelLevelInput = document.querySelector("input[name=fuelLevel]")
+                            if (isNaN(fuelLevelInput.value)== true){
+                                  alert("Numbers only for Fuel" );
+                              }
+                        })  
+                      })   
+                      </script>
                 </div>
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
                     <label>Cargo Mass (kg) <input type="text" name="cargoMass"/></label>
+                    <script>
+                        window.addEventListener("load", function (){
+                            let formSubmit = document.getElementById("formSubmit")
+                            formSubmit.addEventListener("click", function(){
+                            let cargoMassInput = document.querySelector("input[name=cargoMass]")
+                            if (isNaN(cargoMassInput.value)== true){
+                                  alert("Numbers only for Cargo Mass" );
+                              }
+                            if (cargoMassInput.value ===""){
+                                alert("All Fields Required")
+                                event.preventDefault();
+                            }
+                        })  
+                      })   
+                      </script>
                 </div>
                 <button id="formSubmit">Submit</button>
             </form>
         </div>
         <div id="launchStatusCheck">
             <h2 id="launchStatus">Awaiting Information Before Launch</h2>
+            <script>
+                window.addEventListener("load", function (){
+                    let formSubmit = document.getElementById("formSubmit")
+                    formSubmit.addEventListener("click", function(event){
+                        document.getElementById("launchStatus").style.color = "green"
+                        document.getElementById("launchStatus").innerHTML = "Go For Launch"
+                    }) 
+                    }) 
+            </script>
             <div  id="faultyItems">
                 <ol>
                     <li id="pilotStatus">Pilot Ready</li>
+                    <script>                  
+                    window.addEventListener("load", function (){
+                            let formSubmit = document.getElementById("formSubmit")
+                            formSubmit.addEventListener("click", function(){
+                            let pilotNameInput = document.querySelector("input[name=pilotName]") 
+                            if (pilotNameInput.value.includes("") ){
+                                document.getElementById("pilotStatus").innerHTML = `${pilotNameInput.value} is Ready`          
+                    }
+                })
+            })
+                    </script> 
                     <li id="copilotStatus">Co-pilot Ready</li>
+                    <script>
+                        window.addEventListener("load", function (){
+                            let formSubmit = document.getElementById("formSubmit")
+                            formSubmit.addEventListener("click", function(){
+                            let copilotNameInput = document.querySelector("input[name=copilotName]") 
+                            if (copilotNameInput.value.includes("") ){
+                                document.getElementById("copilotStatus").innerHTML = `${copilotNameInput.value} is Ready`          
+                    }
+                })
+            })
+                    </script>
                     <li id="fuelStatus">Fuel level high enough for launch</li>
+                    <Script>
+                        window.addEventListener("load", function (){
+                            let formSubmit = document.getElementById("formSubmit")
+                            formSubmit.addEventListener("click", function(event){
+                            let fuelStatusInput = document.querySelector("input[name=fuelLevel]");
+                            
+                            if (fuelStatusInput.value >= 10000){
+                                document.getElementById("faultyItems").style.visibility = "visible"                           
+                            }else{
+                                document.getElementById("faultyItems").style.visibility = "visible";
+                                document.getElementById("launchStatus").innerHTML = 'Shuttle is not ready to Launch';
+                                document.getElementById("fuelStatus").innerHTML = 'Not enough fuel for launch'
+                                document.getElementById("launchStatus").style.color = "red"
+                            } event.preventDefault()
+                        }) 
+                    })
+                    </Script>
                     <li id="cargoStatus">Cargo mass low enough for launch</li>
+                    <Script>
+                        window.addEventListener("load", function (){
+                            let formSubmit = document.getElementById("formSubmit")
+                            formSubmit.addEventListener("click", function(event){
+                            let cargoMassInput = document.querySelector("input[name=cargoMass]");
+                            
+                            if (cargoMassInput.value <= 10000){
+                                document.getElementById("faultyItems").style.visibility = "visible"                           
+                            }else{
+                                document.getElementById("faultyItems").style.visibility = "visible";
+                                document.getElementById("launchStatus").innerHTML = 'Shuttle is not ready to Launch';
+                                document.getElementById("cargoStatus").innerHTML = ' Too heavy for launch'
+                                document.getElementById("launchStatus").style.color = "red"
+                            } event.preventDefault()
+                        }) 
+                    })
+                    </Script>
                 </ol>
             </div>
         </div>    
